@@ -1,13 +1,14 @@
 import streamlit as st
 from sqlalchemy import create_engine
 import sqlite3
-from llm import llm_request
+from sql_gen import llm_request
+
 
 # Streamlit app layout
 st.title("Multi-Database Connection")
 
 # # Dropdown for selecting database type
-# db_type = st.sidebar.selectbox("Select Database Type", options=["MySQL", "PostgreSQL", "SQLite", "Oracle", "Microsoft SQL Server", "IBM Db2"])
+db_type = st.sidebar.selectbox("Select Database Type", options=["MySQL", "PostgreSQL", "SQLite", "Oracle", "Microsoft SQL Server"])
 
 # Sidebar for taking openai input
 database_uri = st.sidebar.text_input("Database URI")
@@ -15,6 +16,7 @@ database_uri = st.sidebar.text_input("Database URI")
 if not database_uri:
     st.info("Enter a database URI to continue")
     st.stop()    
+    
     
 # Input for database schema
 with st.sidebar.form("my_form"):
@@ -24,24 +26,12 @@ with st.sidebar.form("my_form"):
 if not schema:
     st.info("Enter a database schema to continue")
     st.stop()    
-
-# REMOVING BELOW BECAUSE CHAT SECTION IS USED INSTEAD
-# if submitted:        
-#     connection = sqlite3.connect(database_uri)
-#     cursor = connection.cursor()
     
-#     # cursor.execute("select * from EducationData limit 1;")
     
-#     # st.write(cursor.fetchall())
-#     prompt = st.text_area("Ask your database")
-#     # print(llm_request(prompt))
-#     # st.write(llm_request(prompt))
-# else:
-#     st.stop()
-
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
+    
     
 # Accept user input
 if query := st.chat_input("Chat with your database"):
@@ -53,7 +43,7 @@ if query := st.chat_input("Chat with your database"):
     st.session_state.messages.append({"role": "user", "content": query})
     
     # Sending as a query to the LLM
-    response = llm_request(query, schema)
+    response = llm_request(query, schema, database_uri)
 
     # Writing the response from the LLM
     st.write(response)
@@ -61,8 +51,11 @@ if query := st.chat_input("Chat with your database"):
     connection = sqlite3.connect(database_uri)
     cursor = connection.cursor()
 
+    # Executing the generated SQL
     cursor.execute(response)
     
     output = cursor.fetchall()
     st.write('-'*50)
-    st.write(output[0][0])
+    st.write(str(output[0][0]))
+    
+    connection.close()
