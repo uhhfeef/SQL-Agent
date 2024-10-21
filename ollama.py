@@ -1,8 +1,9 @@
 import requests
 import utils
+
 # TODO: This is a work in progress
 
-# The following code is under development and may require further refinement
+# The following code is under development
 # Future improvements:
 # - Error handling for API requests
 # - Adding details in git repo
