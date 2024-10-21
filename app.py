@@ -9,12 +9,12 @@ st.title("Multi-Database Connection")
 # # Dropdown for selecting database type
 # db_type = st.sidebar.selectbox("Select Database Type", options=["MySQL", "PostgreSQL", "SQLite", "Oracle", "Microsoft SQL Server", "IBM Db2"])
 
-# # Sidebar for taking openai input
-# database_uri = st.sidebar.text_input("Database URI")
+# Sidebar for taking openai input
+database_uri = st.sidebar.text_input("Database URI")
 
-# if not database_uri:
-#     st.info("Enter a database URI to continue")
-#     st.stop()    
+if not database_uri:
+    st.info("Enter a database URI to continue")
+    st.stop()    
     
 # Input for database schema
 with st.sidebar.form("my_form"):
@@ -25,6 +25,7 @@ if not schema:
     st.info("Enter a database schema to continue")
     st.stop()    
 
+# REMOVING BELOW BECAUSE CHAT SECTION IS USED INSTEAD
 # if submitted:        
 #     connection = sqlite3.connect(database_uri)
 #     cursor = connection.cursor()
@@ -33,8 +34,8 @@ if not schema:
     
 #     # st.write(cursor.fetchall())
 #     prompt = st.text_area("Ask your database")
-#     print(llm_request(prompt))
-#     st.write(llm_request(prompt))
+#     # print(llm_request(prompt))
+#     # st.write(llm_request(prompt))
 # else:
 #     st.stop()
 
@@ -43,21 +44,21 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
     
 # Accept user input
-if prompt := st.chat_input("Chat with your database"):
+if query := st.chat_input("Chat with your database"):
     # Display user message in chat message container
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.markdown(query)
         
     # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": query})
     
-    # Sending as a prompt to the LLM
-    response = llm_request(prompt, schema)
+    # Sending as a query to the LLM
+    response = llm_request(query, schema)
 
     # Writing the response from the LLM
     st.write(response)
 
-    connection = sqlite3.connect("edtech.db")
+    connection = sqlite3.connect(database_uri)
     cursor = connection.cursor()
 
     cursor.execute(response)
