@@ -5,7 +5,7 @@ import requests
 
 # client = OpenAI(
 # 	base_url="https://mxxhppax9agaovsm.us-east-1.aws.endpoints.huggingface.cloud/v1/", 
-# 	api_key="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" 
+# 	api_key="" 
 # )
 
 ollama_url = "http://localhost:11434/api/chat" 
