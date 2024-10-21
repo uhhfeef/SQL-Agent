@@ -1,5 +1,11 @@
 import requests
 import utils
+# TODO: This is a work in progress
+
+# The following code is under development and may require further refinement
+# Future improvements:
+# - Error handling for API requests
+# - Adding details in git repo
 
 ollama_url = "http://localhost:11434/api/chat" 
 
@@ -12,9 +18,9 @@ def llm_request(content, schema, database_uri):
     messages =[
         {
             "role": "system",
-            "content": "this is the schema to the database. create and send only the accurate sql queries for the below schema."
+            "content": "Below is the schema to the database. Create and send only the accurate sql queries for the schema."
             '''{}'''
-            '''This is the top 5 distinct rows:
+            '''These are the top 5 distinct rows:
             {}'''
             .format(schema, top_five_rows_data)
         },
