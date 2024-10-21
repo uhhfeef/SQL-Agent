@@ -1,5 +1,4 @@
 import streamlit as st
-from sqlalchemy import create_engine
 import sqlite3
 from sql_gen import llm_request
 
@@ -8,7 +7,7 @@ from sql_gen import llm_request
 st.title("Multi-Database Connection")
 
 # # Dropdown for selecting database type
-db_type = st.sidebar.selectbox("Select Database Type", options=["MySQL", "PostgreSQL", "SQLite", "Oracle", "Microsoft SQL Server"])
+db_type = st.sidebar.selectbox("Select Database Type", options=["SQLite", "MySQL", "PostgreSQL", "Oracle", "Microsoft SQL Server"])
 
 # Sidebar for taking openai input
 database_uri = st.sidebar.text_input("Database URI")
