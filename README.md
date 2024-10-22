@@ -1,7 +1,7 @@
 # SQL Agent
 
 ## Overview
-This project aims to democratize SQL queries for non-technical users and demonstrate how companies can leverage Large Language Models (LLMs) to make data more accessible. By creating an intelligent agent capable of understanding natural language inputs and generating SQL queries, we're bridging the gap between data and those who need insights from it, regardless of their technical background.
+This project aims to democratize SQL queries for non-technical users and demonstrate how companies can leverage Large Language Models (LLMs) to make data more accessible. 
 
 ## Project Structure
 The project is set up as a Python-based application with the following key components:
