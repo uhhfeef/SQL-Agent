@@ -6,6 +6,7 @@ sql_gen-test.py
 bin/
 etc/
 share/
+pyvenv.cfg
 
 # C extensions
 *.so
