@@ -12,7 +12,7 @@ client = OpenAI(
 )
 
 def llm_request(content, schema, database_uri):
-    # Getting the top 5 rows and sending as metadata
+    # Fetch sample data from the database for context
     db_util = utils.DatabaseUtil(database_uri)
     top_five_rows_data = db_util.top_five_rows()
 
