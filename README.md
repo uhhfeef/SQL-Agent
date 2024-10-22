@@ -1,4 +1,4 @@
-# SQL Agent
+# SQL Agent Boilerplate
 
 ## Overview
 This project aims to democratize SQL queries for non-technical users and demonstrate how companies can leverage Large Language Models (LLMs) to make data more accessible. 
