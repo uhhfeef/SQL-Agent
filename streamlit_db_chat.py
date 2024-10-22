@@ -1,15 +1,29 @@
 import streamlit as st
 import sqlite3
-from sql_gen import llm_request
+# from sql_gen import llm_request
+from sql_gen_test import llm_request
+from utils import DatabaseUtil
+
+
+# Function to execute SQL query using DatabaseUtil
+def execute_query(db_type, database_uri, sql_query):
+    try:
+        db_util = DatabaseUtil(database_uri, db_type)
+        db_util.cursor.execute(sql_query)
+        output = db_util.cursor.fetchall()
+        return output
+    except Exception as e:
+        st.error(f"An error occurred while executing the SQL query: {e}")
+        return None
 
 
 # Streamlit app layout
 st.title("Multi-Database Connection")
 
-# # Dropdown for selecting database type
-db_type = st.sidebar.selectbox("Select Database Type", options=["SQLite", "MySQL", "PostgreSQL", "Oracle", "Microsoft SQL Server"])
+# Dropdown for selecting database type
+db_type = st.sidebar.selectbox("Select Database Type", options=["SQLite", "PostgreSQL", "MySQL", "Oracle", "MSSQL"])
 
-# Sidebar for taking openai input
+# Sidebar for taking database URI input
 database_uri = st.sidebar.text_input("Database URI")
 
 if not database_uri:
@@ -31,7 +45,11 @@ if not schema:
 if "messages" not in st.session_state:
     st.session_state.messages = []
     
-    
+# Display chat history
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+        
 # Accept user input
 if query := st.chat_input("Chat with your database"):
     # Display user message in chat message container
@@ -41,20 +59,31 @@ if query := st.chat_input("Chat with your database"):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": query})
     
-    # Sending as a query to the LLM
-    response = llm_request(query, schema, database_uri)
-
-    # Writing the response from the LLM
-    st.write(response)
-
-    connection = sqlite3.connect(database_uri)
-    cursor = connection.cursor()
-
-    # Executing the generated SQL
-    cursor.execute(response)
+    # Create a placeholder for the assistant's response
+    with st.chat_message("assistant"):
+        message_placeholder = st.empty()
+        full_response = ""
+        
+        # Stream the response from the LLM
+        for response_chunk in llm_request(query, schema, database_uri):
+            full_response += response_chunk
+            message_placeholder.markdown(full_response + "▌")
+        
+        message_placeholder.markdown(full_response)
     
-    output = cursor.fetchall()
-    st.write('-'*50)
-    st.write(str(output[0][0]))
+    # Add assistant response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+    # Extract the SQL query from the full response
+    sql_query = full_response
+
+    # Execute the SQL query
+    output = execute_query(db_type, database_uri, sql_query)
+    print('outputw',output)
+
+    # Print the output as an assistant response
+    with st.chat_message("assistant"):
+        st.markdown(f"Query Result:\n```\n{output[0][0]}\n```")
     
-    connection.close()
+
+
