@@ -17,7 +17,7 @@ def execute_query(db_type, database_uri, sql_query):
 
 
 # Streamlit app layout
-st.title("Multi-Database Connection")
+st.title("SQL Agent Bot")
 
 # Dropdown for selecting database type
 db_type = st.sidebar.selectbox("Select Database Type", options=["SQLite", "PostgreSQL", "MySQL", "Oracle", "MSSQL"])
