@@ -27,14 +27,23 @@ The project is set up as a Python-based application with the following key compo
    pip install -r requirements.txt   ```
 4. Deploy the defog/llama-3-sqlcoder-8b model to a Hugging Face Inference Endpoint:
    a. Go to the Hugging Face website and sign in to your account
+
    b. Navigate to the defog/llama-3-sqlcoder-8b model page
+
    c. Click on "Deploy" and select "Inference Endpoints"
+
    d. Choose your preferred cloud provider and region (e.g., AWS us-east-1)
+
    e. Select the instance type based on your requirements
+
    f. Configure any additional settings as needed
+
    g. Click "Create Endpoint" to deploy the model
+
    h. Once deployed, you'll receive an endpoint URL similar to:
+
       https://mxxhppax9agaovsm.us-east-1.aws.endpoints.huggingface.cloud/v1/
+      
 5. Update the `sql_gen.py` file with your Hugging Face API token and the new endpoint URL
 
 ## Usage
