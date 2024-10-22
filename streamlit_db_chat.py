@@ -83,7 +83,12 @@ if query := st.chat_input("Chat with your database"):
 
     # Print the output as an assistant response
     with st.chat_message("assistant"):
-        st.markdown(f"Query Result:\n```\n{output}\n```")
+        st.markdown("Query Result:")
+        if isinstance(output, list):
+            for item in output:
+                st.markdown(f"- {item}")
+        else:
+            st.markdown(f"```\n{output}\n```")
     
 
 

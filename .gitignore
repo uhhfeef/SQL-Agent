@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-sql_gen-test.py
+sql_gen_test.py
 bin/
 etc/
 share/
