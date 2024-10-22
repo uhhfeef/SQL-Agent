@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
-from sql_gen import llm_request
+# from sql_gen import llm_request
+from sql_gen_test import llm_request
 from utils import DatabaseUtil
 
 
@@ -78,11 +79,11 @@ if query := st.chat_input("Chat with your database"):
 
     # Execute the SQL query
     output = execute_query(db_type, database_uri, sql_query)
-    print('outputw',output)
+
 
     # Print the output as an assistant response
     with st.chat_message("assistant"):
-        st.markdown(f"Query Result:\n```\n{output[0][0]}\n```")
+        st.markdown(f"Query Result:\n```\n{output}\n```")
     
 
 
