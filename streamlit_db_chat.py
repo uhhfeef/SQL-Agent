@@ -1,7 +1,6 @@
 import streamlit as st
 import sqlite3
-# from sql_gen import llm_request
-from sql_gen_test import llm_request
+from sql_gen import llm_request
 from utils import DatabaseUtil
 
 
