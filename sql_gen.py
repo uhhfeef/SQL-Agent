@@ -7,9 +7,11 @@ from streamlit_db_chat import hf_api_call
 dotenv.load_dotenv()
 HF_TOKEN = os.getenv("HF_TOKEN")
 
+hf_url, hf_token = hf_api_call()
+
 client = OpenAI(
-	base_url=hf_api_call.hf_url, 
-	api_key=hf_api_call.hf_token 
+	base_url=hf_url, 
+	api_key=hf_token 
 )
 
 def llm_request(content, schema, database_uri):
