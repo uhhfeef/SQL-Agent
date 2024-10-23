@@ -17,7 +17,17 @@ def execute_query(db_type, database_uri, sql_query):
 
 
 # Streamlit app layout
-st.title("SQL Agent Bot")
+st.title("Chat with your Database")
+
+hf_url = st.sidebar.text_input("HF API URL")
+hf_token = st.sidebar.text_input("HF API Token", type="password")
+
+if not hf_url or not hf_token:
+    st.sidebar.warning("Please enter your HF API URL and token to continue")
+    st.stop()
+    
+def hf_api_call():
+    return hf_url, hf_token
 
 # Dropdown for selecting database type
 db_type = st.sidebar.selectbox("Select Database Type", options=["SQLite", "PostgreSQL", "MySQL", "Oracle", "MSSQL"])
