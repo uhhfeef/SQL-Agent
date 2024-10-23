@@ -2,13 +2,14 @@ from openai import OpenAI
 import utils
 import dotenv
 import os
+from streamlit_db_chat import hf_api_call
 
 dotenv.load_dotenv()
 HF_TOKEN = os.getenv("HF_TOKEN")
 
 client = OpenAI(
-	base_url="<HF_API_URL>", 
-	api_key="<HF_API_TOKEN>" 
+	base_url=hf_api_call.hf_url, 
+	api_key=hf_api_call.hf_token 
 )
 
 def llm_request(content, schema, database_uri):
